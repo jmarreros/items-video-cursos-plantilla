@@ -1,0 +1,30 @@
+#list-container,
+#video-container{
+	width:50%;
+	min-height: 200px;
+}
+
+.add-item{
+	widows: 100;
+	text-align: right;
+}
+
+.list-items,
+.item,
+.item-link{
+	display: block;
+	width: 100%;
+}
+
+.item-link{
+	padding: 10px;
+}
+
+.item{
+	background: #ddd;
+}
+
+.item .controls{
+	padding: 10px;
+	background: #ccc;
+}
