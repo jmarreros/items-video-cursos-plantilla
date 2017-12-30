@@ -14,15 +14,45 @@
 				<a href="#" class="item-link">Item 1</a>
 
 				<div class="controls">
-					<label for="item-name">Name</label>
-					<input id="item-name" type="text" value="Item 1"/>
+					<p class="control-name">
+						<label for="name">Name</label>
+						<input id="name" type="text" value="Item 1"/>
+					</p>
+					<p>
+						<input type="checkbox" id="isheader">
+						<label for="isheader">Is header?</label>
+
+						<input type="checkbox" id="lock">
+						<label for="lock">Lock item?</label>
+					</p>
+
+					<p class="control-type">
+						<label for="type">Type</label>
+						<select id="type">
+							<option value="youtube" selected>Youtube</option>
+							<option value="vimeo">Vimeo</option>
+							<option value="custom">custom</option>
+						</select>
+					</p>
+
+					<p class="control-code">
+						<label for="code">Code</label>
+						<textarea id="code" cols="30" rows="4"></textarea>						
+					</p>
+					<hr>
+					<div class="control-options">
+						<div><a href="#">Remove</a> | <a href="#">Cancel</a></div>
+						<div><a href="#">Preview</a></div>
+					</div>
 				</div>
 
 			</div>
 		</div>
 	</div>
 	<div id="video-container">
-		
+		<video src="#"></video>
+		<textarea id="notes" cols="30" rows="10"></textarea>
 	</div>
+
 </body>
 </html>

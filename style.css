@@ -2,6 +2,11 @@
 #video-container{
 	width:50%;
 	min-height: 200px;
+	float: left;
+}
+
+#video-container{
+	background: lightyellow;
 }
 
 .add-item{
@@ -27,4 +32,24 @@
 .item .controls{
 	padding: 10px;
 	background: #ccc;
+}
+
+
+.item .control-name{
+	display: block;
+	width:100%;
+}
+
+.control-options > div:first-child{
+	float:left;
+}
+
+.control-options > div:last-child{
+	float:right;
+}
+
+.control-options::after{
+	content:"";
+	display: block;
+	clear:both;
 }
