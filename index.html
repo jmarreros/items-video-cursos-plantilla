@@ -9,26 +9,31 @@
 <body>
 	<div id="list-container">
 		<a href="#" class="add-item">+ Add</a>
-		<div class="list-items">
-			<div class="item">
-				<a href="#" class="item-link">Item 1</a>
+
+
+		<ul class="list-items">
+
+			<li class="item">
+
+				<a href="#" class="item-link" id="item-link-1" data-id="1">Item 1</a>
 
 				<div class="controls">
 					<p class="control-name">
-						<label for="name">Name</label>
-						<input id="name" type="text" value="Item 1"/>
+						<label for="name-1">Name</label>
+						<input id="name-1" type="text" value="Item 1"/>
 					</p>
-					<p>
-						<input type="checkbox" id="isheader">
-						<label for="isheader">Is header?</label>
 
-						<input type="checkbox" id="lock">
-						<label for="lock">Lock item?</label>
+					<p class="control-check">
+						<input type="checkbox" id="isheader-1">
+						<label for="isheader-1">Is header?</label>
+
+						<input type="checkbox" id="islock-1">
+						<label for="islock-1">Lock item?</label>
 					</p>
 
 					<p class="control-type">
-						<label for="type">Type</label>
-						<select id="type">
+						<label for="type-1">Type</label>
+						<select id="type-1">
 							<option value="youtube" selected>Youtube</option>
 							<option value="vimeo">Vimeo</option>
 							<option value="custom">custom</option>
@@ -36,23 +41,57 @@
 					</p>
 
 					<p class="control-code">
-						<label for="code">Code</label>
-						<textarea id="code" cols="30" rows="4"></textarea>						
+						<label for="code-1">Code</label>
+						<textarea id="code-1" cols="30" rows="4"></textarea>						
 					</p>
+
 					<hr>
 					<div class="control-options">
-						<div><a href="#">Remove</a> | <a href="#">Cancel</a></div>
-						<div><a href="#">Preview</a></div>
+						<div><a href="#" id="remove-1">Remove</a> | <a href="#" id="cancel-1">Cancel</a></div>
+						<div><a href="#" id="preview-1">Preview</a></div>
 					</div>
 				</div>
 
-			</div>
-		</div>
+			</li><!-- item 1 -->
+
+		</ul>
+
 	</div>
 	<div id="video-container">
 		<video src="#"></video>
 		<textarea id="notes" cols="30" rows="10"></textarea>
 	</div>
+
+<script>
+	const curso = [
+	{
+		idcurso: 1,
+		name: 'Introducción',
+		isheader: true,
+		islock:false,
+		type:'custom',
+		code:'',
+		note:''
+	},
+	{
+		idcurso: 2,
+		name: 'Item 1',
+		isheader: false,
+		islock:false,
+		type:'Youtube',
+		code:'Este es el código para el video de youtube',
+		note:'Este es un comentario para el video de youtube'
+	}
+	];
+
+
+	//console.log(curso);
+
+	// let items = document.querySelectorAll('.item');
+
+	// console.log(items);
+
+</script>
 
 </body>
 </html>
