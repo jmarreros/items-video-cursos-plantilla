@@ -4,18 +4,17 @@
 	<meta charset="UTF-8">
 	<title>Video List for Courses</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
-	<script src="script.js"></script>
 </head>
 <body>
 	<div id="list-container">
 		<a href="#" class="add-item">+ Add</a>
 
 
-		<ul class="list-items">
+		<ul class="list-items" id="list-items">
 
-			<li class="item">
-
-				<a href="#" class="item-link" id="item-link-1" data-id="1">Item 1</a>
+			<li class="item" id="item-1" data-id="1">
+				
+				<a href="#" class="item-link" id="item-link-1">Item 1 </a>
 
 				<div class="controls">
 					<p class="control-name">
@@ -54,6 +53,48 @@
 
 			</li><!-- item 1 -->
 
+
+			<li class="item" id="item-2" data-id="2">
+
+				<a href="#" class="item-link" id="item-link-2">Item 2</a>
+
+				<div class="controls">
+					<p class="control-name">
+						<label for="name-2">Name</label>
+						<input id="name-2" type="text" value="Item 2"/>
+					</p>
+
+					<p class="control-check">
+						<input type="checkbox" id="isheader-2">
+						<label for="isheader-2">Is header?</label>
+
+						<input type="checkbox" id="islock-2">
+						<label for="islock-2">Lock item?</label>
+					</p>
+
+					<p class="control-type">
+						<label for="type-2">Type</label>
+						<select id="type-2">
+							<option value="youtube" selected>Youtube</option>
+							<option value="vimeo">Vimeo</option>
+							<option value="custom">custom</option>
+						</select>
+					</p>
+
+					<p class="control-code">
+						<label for="code-2">Code</label>
+						<textarea id="code-2" cols="30" rows="4"></textarea>						
+					</p>
+
+					<hr>
+					<div class="control-options">
+						<div><a href="#" id="remove-2">Remove</a> | <a href="#" id="cancel-2">Cancel</a></div>
+						<div><a href="#" id="preview-2">Preview</a></div>
+					</div>
+				</div>
+
+			</li><!-- item 2 -->
+
 		</ul>
 
 	</div>
@@ -62,36 +103,10 @@
 		<textarea id="notes" cols="30" rows="10"></textarea>
 	</div>
 
-<script>
-	const curso = [
-	{
-		idcurso: 1,
-		name: 'Introducción',
-		isheader: true,
-		islock:false,
-		type:'custom',
-		code:'',
-		note:''
-	},
-	{
-		idcurso: 2,
-		name: 'Item 1',
-		isheader: false,
-		islock:false,
-		type:'Youtube',
-		code:'Este es el código para el video de youtube',
-		note:'Este es un comentario para el video de youtube'
-	}
-	];
 
-
-	//console.log(curso);
-
-	// let items = document.querySelectorAll('.item');
-
-	// console.log(items);
-
-</script>
+	<script src="script.js"></script>
 
 </body>
 </html>
+
+<!-- <span class="arrow">&#9650;</span> -->

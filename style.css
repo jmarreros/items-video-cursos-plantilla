@@ -1,56 +1,74 @@
 #list-container,
 #video-container{
 	width:50%;
-	min-height: 200px;
 	float: left;
 }
 
-#video-container{
-	background: lightyellow;
-}
-
-.add-item{
+/* left elements*/
+#list-container .add-item{
 	widows: 100;
 	text-align: right;
 }
 
-.list-items,
-.item,
-.item-link{
+ul.list-items{
+	list-style: none;
+	margin: 0;
+	padding: 0;
 	display: block;
 	width: 100%;
 }
 
-.item-link{
-	padding: 10px;
+li.item{
+	margin-top:2px;
 }
 
-.item{
-	margin-top:20px;
-	background: #ddd;
-}
-
-.item .controls{
-	padding: 10px;
-	background: #ccc;
-}
-
-
-.item .control-name{
+li.item .item-link{
+	text-decoration: none;
+	background: #cdcdcd;
 	display: block;
-	width:100%;
+	padding: 10px;
 }
 
-.control-options > div:first-child{
+li.item .item-link::after{
+	content:"▲";
+	display:block;
+	float: right;
+}
+
+
+li.item .item-link.down::after{
+	content:"▼";
+}
+
+
+li.item .controls{
+	padding: 10px;
+	background: #dedede;
+}
+
+li.item .controls.hide{
+	display: none;
+}
+
+
+/* items links footer */
+li.item .controls .control-options > div:first-child{
 	float:left;
 }
 
-.control-options > div:last-child{
+li.item .controls .control-options > div:last-child{
 	float:right;
 }
 
-.control-options::after{
+li.item .controls .control-options::after{
 	content:"";
 	display: block;
 	clear:both;
 }
+
+
+/* right elements */
+#video-container{
+	background: lightyellow;
+}
+
