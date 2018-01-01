@@ -12,9 +12,12 @@
 
 		<ul class="list-items" id="list-items">
 
-			<li class="item" id="item-1" data-id="1">
-				
-				<a href="#" class="item-link" id="item-link-1">Item 1 </a>
+			<li class="item" data-id="1">
+
+				<div class="links">
+					<a href="#" class="item-link">Item 1</a>
+					<a href="#" class="arrow"></a>
+				</div>
 
 				<div class="controls">
 					<p class="control-name">
@@ -22,12 +25,9 @@
 						<input id="name-1" type="text" value="Item 1"/>
 					</p>
 
-					<p class="control-check">
+					<p class="control-check-header">
 						<input type="checkbox" id="isheader-1">
 						<label for="isheader-1">Is header?</label>
-
-						<input type="checkbox" id="islock-1">
-						<label for="islock-1">Lock item?</label>
 					</p>
 
 					<p class="control-type">
@@ -44,10 +44,15 @@
 						<textarea id="code-1" cols="30" rows="4"></textarea>						
 					</p>
 
+					<p class="control-check-lock">
+						<input type="checkbox" id="islock-1">
+						<label for="islock-1">Locked for guests?</label>
+					</p>
+
 					<hr>
 					<div class="control-options">
-						<div><a href="#" id="remove-1">Remove</a> | <a href="#" id="cancel-1">Cancel</a></div>
-						<div><a href="#" id="preview-1">Preview</a></div>
+						<div><a href="#" class="remove">Remove</a> | <a href="#" class="cancel">Cancel</a></div>
+						<div><a href="#" class="preview">Preview</a></div>
 					</div>
 				</div>
 
@@ -56,7 +61,10 @@
 
 			<li class="item" id="item-2" data-id="2">
 
-				<a href="#" class="item-link" id="item-link-2">Item 2</a>
+				<div class="links">
+					<a href="#" class="item-link" id="item-link-2">Item 2</a>
+					<a href="#" class="arrow"></a>
+				</div>
 
 				<div class="controls">
 					<p class="control-name">
@@ -64,12 +72,9 @@
 						<input id="name-2" type="text" value="Item 2"/>
 					</p>
 
-					<p class="control-check">
-						<input type="checkbox" id="isheader-2">
+					<p class="control-check-header">
+						<input type="checkbox" id="isheader-2" class="isheader">
 						<label for="isheader-2">Is header?</label>
-
-						<input type="checkbox" id="islock-2">
-						<label for="islock-2">Lock item?</label>
 					</p>
 
 					<p class="control-type">
@@ -86,10 +91,15 @@
 						<textarea id="code-2" cols="30" rows="4"></textarea>						
 					</p>
 
+					<p class="control-check-lock">
+						<input type="checkbox" id="islock-2" class="islock">
+						<label for="islock-2">Locked for guests?</label>
+					</p>
+
 					<hr>
 					<div class="control-options">
-						<div><a href="#" id="remove-2">Remove</a> | <a href="#" id="cancel-2">Cancel</a></div>
-						<div><a href="#" id="preview-2">Preview</a></div>
+						<div><a href="#" class="remove">Remove</a> | <a href="#" class="cancel">Cancel</a></div>
+						<div><a href="#" class="preview">Preview</a></div>
 					</div>
 				</div>
 

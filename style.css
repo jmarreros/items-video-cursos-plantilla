@@ -1,3 +1,7 @@
+body{
+	font-family: helvetica;
+}
+
 #list-container,
 #video-container{
 	width:50%;
@@ -22,22 +26,48 @@ li.item{
 	margin-top:2px;
 }
 
-li.item .item-link{
-	text-decoration: none;
+li.item .links{
 	background: #cdcdcd;
 	display: block;
 	padding: 10px;
 }
 
-li.item .item-link::after{
-	content:"▲";
-	display:block;
+li.item .links .item-link{
+	text-decoration: none;
+	float: left;
+	width: 95%;
+}
+
+li.item .links .arrow::after{
+	content: "▲";
+	text-align: center;
+	text-decoration: none;
 	float: right;
+	width: 5%;
+}
+
+li.item .links .arrow.down::after{
+	content: "▼";
 }
 
 
-li.item .item-link.down::after{
-	content:"▼";
+li.item .links::after{
+	content: "";
+	display: block;
+	clear: both;
+}
+
+li.item .links .item-link.isheader:hover,
+li.item .links .item-link.isheader{
+	text-transform: uppercase;
+	cursor:default;
+	color:black;
+}
+
+li.item .links .item-link:not(.isheader).islock::before{
+	content:"🔒";
+	display: inline-block;
+	margin-right: 6px;
 }
 
 
@@ -46,7 +76,7 @@ li.item .controls{
 	background: #dedede;
 }
 
-li.item .controls.hide{
+li.item .hide{
 	display: none;
 }
 

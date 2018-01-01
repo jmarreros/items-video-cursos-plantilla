@@ -5,13 +5,31 @@ items.addEventListener('click', function(e){
 	
 	if ( ! e.target ) return;
 
-	if ( e.target.matches('.item .item-link') ){
+	// show/hide controls link
+	if ( e.target.matches('.item .links .arrow') ){
 		const link = e.target;
 		link.classList.toggle('down');
-		const item = link.parentNode.querySelector('.controls');
+
+		const item = link.parentNode.parentNode.querySelector('.controls');
 		item.classList.toggle('hide');
 	}
 
+	// isheader conditional show/hide controls
+	if ( e.target.matches('.item .control-check-header input') ){
+
+		const item = e.target.parentNode.parentNode.parentNode;
+		
+		item.querySelector('.links .item-link').classList.toggle('isheader');
+		item.querySelector('.control-type').classList.toggle('hide');
+		item.querySelector('.control-code').classList.toggle('hide');
+		item.querySelector('.control-check-lock').classList.toggle('hide');
+	}
+
+	if ( e.target.matches('.item .control-check-lock input') ){	
+		const item = e.target.parentNode.parentNode.parentNode;
+
+		item.querySelector('.links .item-link').classList.toggle('islock');
+	}
 
 } );
 
@@ -29,20 +47,16 @@ items.addEventListener( 'keyup', function(e){
 
 });
 
-// const inputs = document.querySelectorAll('.item input[type="text"]');
 
-// inputs.forEach( function(el){
-// 	el.addEventListener('keyup', function(){
-// 		console.log(el.value);
-// 	});
-// });
+const item = document.querySelector('.item');
 
+update_ids( item, 3 );
 
-// inputs.addEventListener('onchange', function(e){
-
-// 	console.log(e.target);
-
-// });
+function update_ids( item, id){
+	item.setAttribute('data-id', id);
+	item.querySelector('.control-name label').setAttribute('for', `name-${id}`);
+	item.querySelector('.control-name input').setAttribute('id', `name-${id}`);
+}
 
 
 
