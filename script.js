@@ -1,6 +1,6 @@
 const template = `
 <li class="item">
-	<div class="links">
+	<div class="links my-handle">
 		<a href="#" class="item-link"></a>
 		<a href="#" class="arrow"></a>
 	</div>
@@ -28,7 +28,7 @@ const template = `
 		</p>
 		<hr>
 		<div class="control-options">
-			<div><a href="#" class="remove">Remove</a> | <a href="#" class="cancel">Cancel</a></div>
+			<div><a href="#" class="remove">Remove</a> | <a href="#" class="close">Close</a></div>
 			<div><a href="#" class="preview">Preview</a></div>
 		</div>
 	</div>
@@ -42,12 +42,19 @@ items.addEventListener('click', function(e){
 	if ( ! e.target ) return;
 
 	// show/hide controls link
-	if ( e.target.matches('.item .links .arrow') ){
-		const link = e.target;
-		link.classList.toggle('down');
+	if ( e.target.matches('.item .arrow') || e.target.matches('.item .close') ){
+		
+		let item = e.target.parentNode.parentNode;
 
-		const item = link.parentNode.parentNode.querySelector('.controls');
-		item.classList.toggle('hide');
+		if (e.target.className == 'close'){
+			item = e.target.parentNode.parentNode.parentNode.parentNode;
+		}
+
+		const link = item.querySelector('.links .arrow');
+		const controls = item.querySelector('.controls');
+
+		link.classList.toggle('down');
+		controls.classList.toggle('hide');
 	}
 
 	// isheader conditional show/hide controls
@@ -63,7 +70,6 @@ items.addEventListener('click', function(e){
 
 	if ( e.target.matches('.item .control-check-lock input') ){	
 		const item = e.target.parentNode.parentNode.parentNode;
-
 		item.querySelector('.links .item-link').classList.toggle('islock');
 	}
 
@@ -92,9 +98,8 @@ addnew.addEventListener('click', function(){
 	items.appendChild(listhtml);
 
 	const item = items.lastChild;
-	update_ids(item, items.childElementCount);
+	update_ids(item, items.childElementCount - 1);
 
-	// console.log(items.childElementCount);
 });
 
 
@@ -113,7 +118,20 @@ function update_ids( item, id){
 	item.querySelector('.control-check-lock input').setAttribute('id', `islock-${id}`);
 }
 
+function reorder_list( items ){
+	items.querySelectorAll('.item').forEach( function(item, index) {
+		update_ids(item, index);
+	});
+}
 
+sortable = Sortable.create(items, {
+	handle: ".my-handle",
+	onEnd: function ( evt ) {
+		if ( evt.oldIndex != evt.newIndex ){
+			reorder_list( items );
+		}
+	}
+});
 
 
 // const curso = [
