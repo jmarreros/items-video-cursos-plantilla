@@ -1,12 +1,12 @@
 const template = `
 <li class="item">
 	<div class="links my-handle">
-		<a href="#" class="item-link"></a>
-		<a href="#" class="arrow"></a>
+		<a href="#" class="item-link">Untitled</a>
+		<a href="#" class="arrow down"></a>
 	</div>
-	<div class="controls">
+	<div class="controls hide">
 		<p class="control-name">
-			<label>Name</label><input type="text" value=""/>
+			<label>Name</label><input type="text" value="Untitled"/>
 		</p>
 		<p class="control-check-header">
 			<input type="checkbox"><label>Is header?</label>
@@ -37,7 +37,7 @@ const template = `
 const items = document.getElementById('list-items');
 
 // Click Events for the link show/hide controls
-items.addEventListener('click', function(e){
+items.addEventListener('click', function(e) {
 	
 	if ( ! e.target ) return;
 
@@ -46,7 +46,7 @@ items.addEventListener('click', function(e){
 		
 		let item = e.target.parentNode.parentNode;
 
-		if (e.target.className == 'close'){
+		if ( e.target.className == 'close' ){
 			item = e.target.parentNode.parentNode.parentNode.parentNode;
 		}
 
@@ -55,6 +55,11 @@ items.addEventListener('click', function(e){
 
 		link.classList.toggle('down');
 		controls.classList.toggle('hide');
+
+		if ( ! link.classList.contains('down') ) {
+			close_opens(item.dataset.id);
+		}
+
 	}
 
 	// isheader conditional show/hide controls
@@ -68,9 +73,18 @@ items.addEventListener('click', function(e){
 		item.querySelector('.control-check-lock').classList.toggle('hide');
 	}
 
+	// islock conditional to hide/show lock icon
 	if ( e.target.matches('.item .control-check-lock input') ){	
 		const item = e.target.parentNode.parentNode.parentNode;
 		item.querySelector('.links .item-link').classList.toggle('islock');
+	}
+
+
+	//Remove element
+	if ( e.target.matches('.item .remove') ){
+		const item = e.target.parentNode.parentNode.parentNode.parentNode;
+		item.parentNode.removeChild(item);
+		reorder_list(items);
 	}
 
 } );
@@ -100,8 +114,20 @@ addnew.addEventListener('click', function(){
 	const item = items.lastChild;
 	update_ids(item, items.childElementCount - 1);
 
+	// item.querySelector()
+	// TODO : Agregar + 1 a untitled
+
 });
 
+// for hidden items open except id
+function close_opens(id){
+	items.querySelectorAll('.item').forEach( function( item, index) {
+		if ( index != id ){
+			item.querySelector('.links .arrow').classList.add('down');
+			item.querySelector('.controls').classList.add('hide');
+		}
+	});
+}
 
 // function to udpate ids attributes for the HTML item
 function update_ids( item, id){
