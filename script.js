@@ -1,12 +1,14 @@
+
+// template
 const template = `
 <li class="item">
 	<div class="links my-handle">
-		<a href="#" class="item-link">Untitled</a>
+		<a href="#" class="item-link"></a>
 		<a href="#" class="arrow down"></a>
 	</div>
 	<div class="controls hide">
 		<p class="control-name">
-			<label>Name</label><input type="text" value="Untitled"/>
+			<label>Name</label><input type="text" value=""/>
 		</p>
 		<p class="control-check-header">
 			<input type="checkbox"><label>Is header?</label>
@@ -33,6 +35,29 @@ const template = `
 		</div>
 	</div>
 </li>`;
+
+// Example data
+const obj_items = [
+	{
+		idcurso: 1,
+		name: 'Introducción',
+		isheader: true,
+		islock:false,
+		type:'custom',
+		code:'code 1',
+		note:'note 1'
+	},
+	{
+		idcurso: 2,
+		name: 'item curso',
+		isheader: false,
+		islock:false,
+		type:'Youtube',
+		code:'Este es el código para el video de youtube',
+		note:'Este es un comentario para el video de youtube'
+	}
+	];
+
 
 const items = document.getElementById('list-items');
 
@@ -64,13 +89,8 @@ items.addEventListener('click', function(e) {
 
 	// isheader conditional show/hide controls
 	if ( e.target.matches('.item .control-check-header input') ){
-
 		const item = e.target.parentNode.parentNode.parentNode;
-		
-		item.querySelector('.links .item-link').classList.toggle('isheader');
-		item.querySelector('.control-type').classList.toggle('hide');
-		item.querySelector('.control-code').classList.toggle('hide');
-		item.querySelector('.control-check-lock').classList.toggle('hide');
+		set_header(item);
 	}
 
 	// islock conditional to hide/show lock icon
@@ -88,6 +108,13 @@ items.addEventListener('click', function(e) {
 	}
 
 } );
+
+function set_header( item ){
+	item.querySelector('.links .item-link').classList.toggle('isheader');
+	item.querySelector('.control-type').classList.toggle('hide');
+	item.querySelector('.control-code').classList.toggle('hide');
+	item.querySelector('.control-check-lock').classList.toggle('hide');
+}
 
 // onchange for change link text with input name value
 items.addEventListener( 'keyup', function(e){
@@ -108,16 +135,36 @@ items.addEventListener( 'keyup', function(e){
 const addnew =  document.getElementById('add-item');
 
 addnew.addEventListener('click', function(){
-	const listhtml = document.createRange().createContextualFragment(template);
-	items.appendChild(listhtml);
-
-	const item = items.lastChild;
-	update_ids(item, items.childElementCount - 1);
-
-	// item.querySelector()
-	// TODO : Agregar + 1 a untitled
-
+	addCourse();
 });
+
+
+// function for adding new course
+function addCourse( obj_item = null ){
+	const listhtml = document.createRange().createContextualFragment(template);
+
+	items.appendChild(listhtml);
+	
+	const item = items.lastChild;
+	const count = items.childElementCount;
+
+	update_ids(item, count - 1);
+
+	// update values
+	if ( obj_item ){
+		item.querySelector('.links .item-link').innerText = obj_item.name;
+
+		if ( obj_item.isheader) {
+			item.querySelector('.control-check-header input').checked = true;
+			set_header(item);
+		}
+		
+	}
+	else{
+		item.querySelector('.links .item-link').innerText = `Untitled-${count}`;
+		item.querySelector('.control-name input').value = `Untitled-${count}`;	
+	}
+}
 
 // for hidden items open except id
 function close_opens(id){
@@ -160,25 +207,15 @@ sortable = Sortable.create(items, {
 });
 
 
-// const curso = [
-// 	{
-// 		idcurso: 1,
-// 		name: 'Introducción',
-// 		isheader: true,
-// 		islock:false,
-// 		type:'custom',
-// 		code:'',
-// 		note:''
-// 	},
-// 	{
-// 		idcurso: 2,
-// 		name: 'Item 1',
-// 		isheader: false,
-// 		islock:false,
-// 		type:'Youtube',
-// 		code:'Este es el código para el video de youtube',
-// 		note:'Este es un comentario para el video de youtube'
-// 	}
-// 	];
+// fill items with obj_items data
+obj_items.forEach( function( obj_item, index) {
+	addCourse( obj_item );
+});
+
+
+
+
+
+
 
 
