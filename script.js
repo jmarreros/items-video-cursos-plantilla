@@ -37,26 +37,28 @@ const template = `
 </li>`;
 
 // Example data
-const obj_items = [
-	{
-		idcurso: 1,
-		name: 'Introducción',
-		isheader: false,
-		islock: true,
-		type:'vimeo',
-		code:'code 1',
-		note:'note 1'
-	},
-	{
-		idcurso: 2,
-		name: 'item curso',
-		isheader: false,
-		islock: false,
-		type:'custom',
-		code:'Este es el código para el video de youtube',
-		note:'Este es un comentario para el video de youtube'
-	}
-	];
+// const obj_items = [
+// 	{
+// 		idcurso: 0,
+// 		name: 'Introducción',
+// 		isheader: false,
+// 		islock: true,
+// 		type:'vimeo',
+// 		code:'code 1',
+// 		note:'note 1'
+// 	},
+// 	{
+// 		idcurso: 1,
+// 		name: 'item curso',
+// 		isheader: false,
+// 		islock: false,
+// 		type:'custom',
+// 		code:'Este es el código para el video de youtube',
+// 		note:'Este es un comentario para el video de youtube'
+// 	}
+// 	];
+
+const obj_items = JSON.parse(localStorage.getItem('item_courses'));
 
 
 const items = document.getElementById('list-items');
@@ -216,9 +218,46 @@ sortable = Sortable.create(items, {
 
 
 // fill items with obj_items data
-obj_items.forEach( function( obj_item, index) {
-	addCourse( obj_item );
+if ( obj_items ){
+	obj_items.forEach( function( obj_item, index) {
+		addCourse( obj_item );
+	});
+}
+
+
+// update object data, pass data to object
+
+function update_object(){
+	let obj_items = new Array();
+
+	items.querySelectorAll('.item').forEach( function ( item, index){
+			obj_items.push(
+				{
+					idcurso: index,
+					name: item.querySelector('.control-name input').value,
+					isheader: item.querySelector('.control-check-header input').checked,
+					islock: item.querySelector('.control-check-lock input').checked,
+					type: item.querySelector('.control-type select').value,
+					code: item.querySelector('.control-code textarea').value,
+					note:'note xxx'
+				});
+	});
+	
+	return obj_items;
+}
+
+
+// Save temp button
+const btn = document.getElementById('save');
+
+btn.addEventListener('click', function(){
+	const items_finales = update_object();
+
+	// save temp local storage
+	localStorage.setItem('item_courses', JSON.stringify(items_finales));
+
 });
+
 
 
 
