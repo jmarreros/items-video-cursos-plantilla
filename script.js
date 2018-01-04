@@ -16,7 +16,7 @@ const template = `
 		<p class="control-type">
 			<label>Type</label>
 			<select>
-				<option value="youtube" selected>Youtube</option>
+				<option value="youtube">Youtube</option>
 				<option value="vimeo">Vimeo</option>
 				<option value="custom">custom</option>
 			</select>
@@ -41,9 +41,9 @@ const obj_items = [
 	{
 		idcurso: 1,
 		name: 'Introducción',
-		isheader: true,
-		islock:false,
-		type:'custom',
+		isheader: false,
+		islock: true,
+		type:'vimeo',
 		code:'code 1',
 		note:'note 1'
 	},
@@ -51,8 +51,8 @@ const obj_items = [
 		idcurso: 2,
 		name: 'item curso',
 		isheader: false,
-		islock:false,
-		type:'Youtube',
+		islock: false,
+		type:'custom',
 		code:'Este es el código para el video de youtube',
 		note:'Este es un comentario para el video de youtube'
 	}
@@ -153,10 +153,18 @@ function addCourse( obj_item = null ){
 	// update values
 	if ( obj_item ){
 		item.querySelector('.links .item-link').innerText = obj_item.name;
+		item.querySelector('.control-name input').value = obj_item.name;
+		item.querySelector('.control-type select').value = obj_item.type;
+		item.querySelector('.control-code textarea').value = obj_item.code;
 
 		if ( obj_item.isheader) {
 			item.querySelector('.control-check-header input').checked = true;
 			set_header(item);
+		}
+
+		if ( obj_item.islock ){
+			item.querySelector('.control-check-lock input').checked = true;
+			item.querySelector('.links .item-link').classList.add('islock');			
 		}
 		
 	}
