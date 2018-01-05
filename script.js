@@ -116,7 +116,26 @@ items.addEventListener('click', function(e) {
 
 	}
 
-} );
+	// preview link
+	if ( e.target.matches('.control-options .preview') || e.target.matches('.links .item-link') ){
+		
+		let item = e.target.parentNode.parentNode;
+		if ( ! item.classList.contains('item') ){
+			item = e.target.parentNode.parentNode.parentNode.parentNode;
+		}
+
+		const title = document.querySelector('#video-container .title');
+		title.innerHTML = item.querySelector('.control-name input').value;
+
+		const video = document.querySelector('#video-container .video');
+		video.innerHTML = item.querySelector('.control-code textarea').value;
+		
+		const notes = document.querySelector('#video-container .notes');
+		notes.innerHTML = item.querySelector('.control-notes textarea').value;
+
+	}
+
+} ); // click event lisener
 
 function set_header( item , toogle = true , isheader = false ){
 	
