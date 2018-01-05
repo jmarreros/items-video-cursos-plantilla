@@ -13,16 +13,11 @@ const template = `
 		<p class="control-check-header">
 			<input type="checkbox"><label>Is header?</label>
 		</p>
-		<p class="control-type">
-			<label>Type</label>
-			<select>
-				<option value="youtube">Youtube</option>
-				<option value="vimeo">Vimeo</option>
-				<option value="custom">custom</option>
-			</select>
-		</p>
 		<p class="control-code">
-			<label>Code</label><textarea cols="30" rows="4"></textarea>						
+			<label>Video Embebed code</label><textarea cols="30" rows="4"></textarea>
+		</p>
+		<p class="control-notes">
+			<label>Video Notes</label><textarea cols="30" rows="4"></textarea>
 		</p>
 		<p class="control-check-lock">
 			<input type="checkbox">
@@ -45,7 +40,7 @@ const template = `
 // 		islock: true,
 // 		type:'vimeo',
 // 		code:'code 1',
-// 		note:'note 1'
+// 		notes:'note 1'
 // 	},
 // 	{
 // 		idcurso: 1,
@@ -54,7 +49,7 @@ const template = `
 // 		islock: false,
 // 		type:'custom',
 // 		code:'Este es el código para el video de youtube',
-// 		note:'Este es un comentario para el video de youtube'
+// 		notes:'Este es un comentario para el video de youtube'
 // 	}
 // 	];
 
@@ -113,8 +108,8 @@ items.addEventListener('click', function(e) {
 
 function set_header( item ){
 	item.querySelector('.links .item-link').classList.toggle('isheader');
-	item.querySelector('.control-type').classList.toggle('hide');
 	item.querySelector('.control-code').classList.toggle('hide');
+	item.querySelector('.control-notes').classList.toggle('hide');
 	item.querySelector('.control-check-lock').classList.toggle('hide');
 }
 
@@ -156,8 +151,8 @@ function addCourse( obj_item = null ){
 	if ( obj_item ){
 		item.querySelector('.links .item-link').innerText = obj_item.name;
 		item.querySelector('.control-name input').value = obj_item.name;
-		item.querySelector('.control-type select').value = obj_item.type;
 		item.querySelector('.control-code textarea').value = obj_item.code;
+		item.querySelector('.control-notes textarea').value = obj_item.notes;
 
 		if ( obj_item.isheader) {
 			item.querySelector('.control-check-header input').checked = true;
@@ -193,10 +188,10 @@ function update_ids( item, id){
 	item.querySelector('.control-name input').setAttribute('id', `name-${id}`);
 	item.querySelector('.control-check-header label').setAttribute('for', `isheader-${id}`);
 	item.querySelector('.control-check-header input').setAttribute('id', `isheader-${id}`);
-	item.querySelector('.control-type label').setAttribute('for', `type-${id}`);
-	item.querySelector('.control-type select').setAttribute('id', `type-${id}`);
 	item.querySelector('.control-code label').setAttribute('for', `code-${id}`);
 	item.querySelector('.control-code textarea').setAttribute('id', `code-${id}`);
+	item.querySelector('.control-notes label').setAttribute('for', `notes-${id}`);
+	item.querySelector('.control-notes textarea').setAttribute('id', `notes-${id}`);
 	item.querySelector('.control-check-lock label').setAttribute('for', `islock-${id}`);
 	item.querySelector('.control-check-lock input').setAttribute('id', `islock-${id}`);
 }
@@ -237,9 +232,8 @@ function update_object(){
 					name: item.querySelector('.control-name input').value,
 					isheader: item.querySelector('.control-check-header input').checked,
 					islock: item.querySelector('.control-check-lock input').checked,
-					type: item.querySelector('.control-type select').value,
 					code: item.querySelector('.control-code textarea').value,
-					note:'note xxx'
+					notes:item.querySelector('.control-notes textarea').value
 				});
 	});
 	
