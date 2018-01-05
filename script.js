@@ -25,7 +25,7 @@ const template = `
 		</p>
 		<hr>
 		<div class="control-options">
-			<div><a href="#" class="remove">Remove</a> | <a href="#" class="close">Close</a></div>
+			<div><a href="#" class="remove">Remove</a> | <a href="#" class="cancel">Cancel</a></div>
 			<div><a href="#" class="preview">Preview</a></div>
 		</div>
 	</div>
@@ -64,13 +64,9 @@ items.addEventListener('click', function(e) {
 	if ( ! e.target ) return;
 
 	// show/hide controls link
-	if ( e.target.matches('.item .arrow') || e.target.matches('.item .close') ){
+	if ( e.target.matches('.item .arrow') ){
 		
 		let item = e.target.parentNode.parentNode;
-
-		if ( e.target.className == 'close' ){
-			item = e.target.parentNode.parentNode.parentNode.parentNode;
-		}
 
 		const link = item.querySelector('.links .arrow');
 		const controls = item.querySelector('.controls');
@@ -96,21 +92,50 @@ items.addEventListener('click', function(e) {
 		item.querySelector('.links .item-link').classList.toggle('islock');
 	}
 
+	//Cancel element
+	if ( e.target.matches('.item .cancel') ){
+		const item = e.target.parentNode.parentNode.parentNode.parentNode;
+		
+		// console.log(item.dataset.oldId);
+		if ( item.dataset.oldId ){
+			const obj_item = obj_items[item.dataset.oldId];
+			update_values( item, obj_item);
+		}
+
+	}
 
 	//Remove element
 	if ( e.target.matches('.item .remove') ){
-		const item = e.target.parentNode.parentNode.parentNode.parentNode;
-		item.parentNode.removeChild(item);
-		reorder_list(items);
+		const confirmation = confirm("Are you sure to remove this item?");
+
+		if ( confirmation ){
+			const item = e.target.parentNode.parentNode.parentNode.parentNode;
+			item.parentNode.removeChild(item);
+			reorder_list(items);
+		}
+
 	}
 
 } );
 
-function set_header( item ){
-	item.querySelector('.links .item-link').classList.toggle('isheader');
-	item.querySelector('.control-code').classList.toggle('hide');
-	item.querySelector('.control-notes').classList.toggle('hide');
-	item.querySelector('.control-check-lock').classList.toggle('hide');
+function set_header( item , toogle = true , isheader = false ){
+	
+	const hasclass =  item.querySelector('.links .item-link').classList.contains('isheader');
+
+	if ( ! toogle ) {
+		if ( (isheader && ! hasclass) || (! isheader && hasclass) ){
+			toogle = true;
+		}
+	}
+
+	if ( toogle ) {
+		item.querySelector('.links .item-link').classList.toggle('isheader');
+		item.querySelector('.control-code').classList.toggle('hide');
+		item.querySelector('.control-notes').classList.toggle('hide');
+		item.querySelector('.control-check-lock').classList.toggle('hide');
+		item.querySelector('.control-options .preview').classList.toggle('hide');
+	} 
+
 }
 
 // onchange for change link text with input name value
@@ -132,12 +157,12 @@ items.addEventListener( 'keyup', function(e){
 const addnew =  document.getElementById('add-item');
 
 addnew.addEventListener('click', function(){
-	addCourse();
+	add_course();
 });
 
 
 // function for adding new course
-function addCourse( obj_item = null ){
+function add_course( obj_item = null ){
 	const listhtml = document.createRange().createContextualFragment(template);
 
 	items.appendChild(listhtml);
@@ -149,26 +174,40 @@ function addCourse( obj_item = null ){
 
 	// update values
 	if ( obj_item ){
-		item.querySelector('.links .item-link').innerText = obj_item.name;
-		item.querySelector('.control-name input').value = obj_item.name;
-		item.querySelector('.control-code textarea').value = obj_item.code;
-		item.querySelector('.control-notes textarea').value = obj_item.notes;
-
-		if ( obj_item.isheader) {
-			item.querySelector('.control-check-header input').checked = true;
-			set_header(item);
-		}
-
-		if ( obj_item.islock ){
-			item.querySelector('.control-check-lock input').checked = true;
-			item.querySelector('.links .item-link').classList.add('islock');			
-		}
-		
+		update_values( item, obj_item );
 	}
 	else{
 		item.querySelector('.links .item-link').innerText = `Untitled-${count}`;
-		item.querySelector('.control-name input').value = `Untitled-${count}`;	
+		item.querySelector('.control-name input').value = `Untitled-${count}`;
+		item.querySelector('.control-options .cancel').style.display = 'none';
 	}
+}
+
+// for update item with object values
+function update_values( item, obj_item ){
+	item.setAttribute('data-old-id', obj_item.idcurso);
+
+	item.querySelector('.links .item-link').innerText = obj_item.name;
+	item.querySelector('.control-name input').value = obj_item.name;
+	item.querySelector('.control-code textarea').value = obj_item.code;
+	item.querySelector('.control-notes textarea').value = obj_item.notes;
+
+	if ( obj_item.isheader) {
+		item.querySelector('.control-check-header input').checked = true;
+		set_header(item, false, true);
+	} else {
+		item.querySelector('.control-check-header input').checked = false;
+		set_header(item, false, false);
+	}
+
+	if ( obj_item.islock ){
+		item.querySelector('.control-check-lock input').checked = true;
+		item.querySelector('.links .item-link').classList.add('islock');
+	} else {
+		item.querySelector('.control-check-lock input').checked = false;
+		item.querySelector('.links .item-link').classList.remove('islock');
+	}
+
 }
 
 // for hidden items open except id
@@ -202,20 +241,11 @@ function reorder_list( items ){
 	});
 }
 
-sortable = Sortable.create(items, {
-	handle: ".my-handle",
-	onEnd: function ( evt ) {
-		if ( evt.oldIndex != evt.newIndex ){
-			reorder_list( items );
-		}
-	}
-});
-
 
 // fill items with obj_items data
 if ( obj_items ){
 	obj_items.forEach( function( obj_item, index) {
-		addCourse( obj_item );
+		add_course( obj_item );
 	});
 }
 
@@ -252,6 +282,15 @@ btn.addEventListener('click', function(){
 
 });
 
+// Order list
+sortable = Sortable.create(items, {
+	handle: ".my-handle",
+	onEnd: function ( evt ) {
+		if ( evt.oldIndex != evt.newIndex ){
+			reorder_list( items );
+		}
+	}
+});
 
 
 
