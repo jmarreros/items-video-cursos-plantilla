@@ -31,120 +31,133 @@ const template = `
 	</div>
 </li>`;
 
-// Example data
-// const obj_items = [
-// 	{
-// 		idcurso: 0,
-// 		name: 'Introducción',
-// 		isheader: false,
-// 		islock: true,
-// 		type:'vimeo',
-// 		code:'code 1',
-// 		notes:'note 1'
-// 	},
-// 	{
-// 		idcurso: 1,
-// 		name: 'item curso',
-// 		isheader: false,
-// 		islock: false,
-// 		type:'custom',
-// 		code:'Este es el código para el video de youtube',
-// 		notes:'Este es un comentario para el video de youtube'
-// 	}
-// 	];
 
 const obj_items = JSON.parse(localStorage.getItem('item_courses'));
-
-
 const items = document.getElementById('list-items');
 
-// Click Events for the link show/hide controls
-items.addEventListener('click', function(e) {
-	
-	if ( ! e.target ) return;
 
-	// show/hide controls link
-	if ( e.target.matches('.item .arrow') ){
+if ( items ) {
+
+	// Click Events for the link show/hide controls
+	items.addEventListener('click', function(e) {
 		
-		let item = e.target.parentNode.parentNode;
+		if ( ! e.target ) return;
 
-		const link = item.querySelector('.links .arrow');
-		const controls = item.querySelector('.controls');
+		// show/hide controls link
+		if ( e.target.matches('.item .arrow') ){
+			
+			let item = e.target.parentNode.parentNode;
 
-		link.classList.toggle('down');
-		controls.classList.toggle('hide');
+			const link = item.querySelector('.links .arrow');
+			const controls = item.querySelector('.controls');
 
-		if ( ! link.classList.contains('down') ) {
-			close_opens(item.dataset.id);
+			link.classList.toggle('down');
+			controls.classList.toggle('hide');
+
+			if ( ! link.classList.contains('down') ) {
+				close_opens(item.dataset.id);
+			}
+
 		}
 
-	}
-
-	// isheader conditional show/hide controls
-	if ( e.target.matches('.item .control-check-header input') ){
-		const item = e.target.parentNode.parentNode.parentNode;
-		set_header(item);
-	}
-
-	// islock conditional to hide/show lock icon
-	if ( e.target.matches('.item .control-check-lock input') ){	
-		const item = e.target.parentNode.parentNode.parentNode;
-		item.querySelector('.links .item-link').classList.toggle('islock');
-	}
-
-	//Cancel element
-	if ( e.target.matches('.item .cancel') ){
-		const item = e.target.parentNode.parentNode.parentNode.parentNode;
-		
-		// console.log(item.dataset.oldId);
-		if ( item.dataset.oldId ){
-			const obj_item = obj_items[item.dataset.oldId];
-			update_values( item, obj_item);
+		// isheader conditional show/hide controls
+		if ( e.target.matches('.item .control-check-header input') ){
+			const item = e.target.parentNode.parentNode.parentNode;
+			set_header(item);
 		}
 
-	}
+		// islock conditional to hide/show lock icon
+		if ( e.target.matches('.item .control-check-lock input') ){	
+			const item = e.target.parentNode.parentNode.parentNode;
+			item.querySelector('.links .item-link').classList.toggle('islock');
+		}
 
-	//Remove element
-	if ( e.target.matches('.item .remove') ){
-		const confirmation = confirm("Are you sure to remove this item?");
-
-		if ( confirmation ){
+		//Cancel element
+		if ( e.target.matches('.item .cancel') ){
 			const item = e.target.parentNode.parentNode.parentNode.parentNode;
-			item.parentNode.removeChild(item);
-			reorder_list(items);
+			
+			// console.log(item.dataset.oldId);
+			if ( item.dataset.oldId ){
+				const obj_item = obj_items[item.dataset.oldId];
+				update_values( item, obj_item);
+			}
+
 		}
 
-	}
+		//Remove element
+		if ( e.target.matches('.item .remove') ){
+			const confirmation = confirm("Are you sure to remove this item?");
 
-	// preview link
-	if ( e.target.matches('.control-options .preview') || e.target.matches('.links .item-link') ){
-		
-		let item = e.target.parentNode.parentNode;
-		if ( ! item.classList.contains('item') ){
-			item = e.target.parentNode.parentNode.parentNode.parentNode;
+			if ( confirmation ){
+				const item = e.target.parentNode.parentNode.parentNode.parentNode;
+				item.parentNode.removeChild(item);
+				reorder_list(items);
+			}
+
 		}
 
-		const loading = document.createElement('img');
-		loading.src = 'loading.gif';
+		// preview link
+		if ( e.target.matches('.control-options .preview') || e.target.matches('.links .item-link') ){
+			
+			let item = e.target.parentNode.parentNode;
+			if ( ! item.classList.contains('item') ){
+				item = e.target.parentNode.parentNode.parentNode.parentNode;
+			}
 
-		const title = document.querySelector('#video-container .title');
-		title.innerHTML = item.querySelector('.control-name input').value;
-		title.appendChild(loading);
+			const loading = document.createElement('img');
+			loading.src = 'loading.gif';
 
-		const video = document.querySelector('#video-container .video');
-		video.innerHTML = item.querySelector('.control-code textarea').value;
+			const title = document.querySelector('#video-container .title');
+			title.innerHTML = item.querySelector('.control-name input').value;
+			title.appendChild(loading);
+
+			const video = document.querySelector('#video-container .video');
+			video.innerHTML = item.querySelector('.control-code textarea').value;
+			
+			const notes = document.querySelector('#video-container .notes');
+			notes.innerHTML = item.querySelector('.control-notes textarea').value;
+
+			setTimeout(function(){
+				loading.parentNode.removeChild(loading);
+			}, 400);
+			
+		}
+
+	} ); // click event listener
+
+
+	// keyup for change link text with input name value
+	items.addEventListener( 'keyup', function(e){
 		
-		const notes = document.querySelector('#video-container .notes');
-		notes.innerHTML = item.querySelector('.control-notes textarea').value;
+		if ( ! e.target ) return;
 
-		setTimeout(function(){
-			loading.parentNode.removeChild(loading);
-		}, 400);
-		
-	}
+		if ( e.target.matches('.item input[type="text"]') ){
+			const input = e.target;
+			const item = input.parentNode.parentNode.parentNode;
+			const link = item.querySelector('.item-link');
+			link.innerHTML = input.value;
+		};
 
-} ); // click event lisener
+	}); // keyup event listener
 
+
+	// Order list with sorteable
+	Sortable.create(items, {
+		handle: ".my-handle",
+		onEnd: function ( evt ) {
+			if ( evt.oldIndex != evt.newIndex ){
+				reorder_list( items );
+			}
+		}
+	}); // sortable
+
+
+} // end-if items is not null 
+
+
+
+
+// show/hide controls when is header
 function set_header( item , toogle = true , isheader = false ){
 	
 	const hasclass =  item.querySelector('.links .item-link').classList.contains('isheader');
@@ -164,28 +177,6 @@ function set_header( item , toogle = true , isheader = false ){
 	} 
 
 }
-
-// onchange for change link text with input name value
-items.addEventListener( 'keyup', function(e){
-	
-	if ( ! e.target ) return;
-
-	if ( e.target.matches('.item input[type="text"]') ){
-		const input = e.target;
-		const item = input.parentNode.parentNode.parentNode;
-		const link = item.querySelector('.item-link');
-		link.innerHTML = input.value;
-	};
-
-});
-
-
-// Adding new item
-const addnew =  document.getElementById('add-item');
-
-addnew.addEventListener('click', function(){
-	add_course();
-});
 
 
 // function for adding new course
@@ -269,14 +260,6 @@ function reorder_list( items ){
 }
 
 
-// fill items with obj_items data
-if ( obj_items ){
-	obj_items.forEach( function( obj_item, index) {
-		add_course( obj_item );
-	});
-}
-
-
 // update object data, pass data to object
 
 function update_object(){
@@ -298,6 +281,22 @@ function update_object(){
 }
 
 
+// Adding new item
+const addnew =  document.getElementById('add-item');
+if ( addnew ) {
+		addnew.addEventListener('click', function(){
+		add_course();
+	});
+}
+
+// fill items with obj_items data
+if ( obj_items ){
+	obj_items.forEach( function( obj_item, index) {
+		add_course( obj_item );
+	});
+}
+
+
 // Save temp button
 const btn = document.getElementById('save');
 
@@ -308,21 +307,6 @@ btn.addEventListener('click', function(){
 	localStorage.setItem('item_courses', JSON.stringify(items_finales));
 
 });
-
-// Order list
-sortable = Sortable.create(items, {
-	handle: ".my-handle",
-	onEnd: function ( evt ) {
-		if ( evt.oldIndex != evt.newIndex ){
-			reorder_list( items );
-		}
-	}
-});
-
-
-
-
-
 
 
 
