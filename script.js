@@ -124,8 +124,12 @@ items.addEventListener('click', function(e) {
 			item = e.target.parentNode.parentNode.parentNode.parentNode;
 		}
 
+		const loading = document.createElement('img');
+		loading.src = 'loading.gif';
+
 		const title = document.querySelector('#video-container .title');
 		title.innerHTML = item.querySelector('.control-name input').value;
+		title.appendChild(loading);
 
 		const video = document.querySelector('#video-container .video');
 		video.innerHTML = item.querySelector('.control-code textarea').value;
@@ -133,6 +137,10 @@ items.addEventListener('click', function(e) {
 		const notes = document.querySelector('#video-container .notes');
 		notes.innerHTML = item.querySelector('.control-notes textarea').value;
 
+		setTimeout(function(){
+			loading.parentNode.removeChild(loading);
+		}, 400);
+		
 	}
 
 } ); // click event lisener
